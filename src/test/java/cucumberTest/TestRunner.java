@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "Feature"
         ,glue={"stepDefinition"}
+        ,tags={"@SmokeTest"}
+
 )
 
 public class TestRunner {

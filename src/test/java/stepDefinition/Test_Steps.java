@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -8,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,13 +32,47 @@ WebDriver driver;
         driver.findElement(By.xpath(".//*[@id='account']/a")).click();
     }
 
-    @When("^User enters UserName and Password$")
+/*    @When("^User enters UserName and Password$")
     public void user_enters_UserName_and_Password() throws Throwable {
-        driver.findElement(By.id("log")).sendKeys("testuser_1");
-        driver.findElement(By.id("pwd")).sendKeys("Test@123");
+        driver.findElement(By.id("log")).sendKeys("Akshay85");
+        driver.findElement(By.id("pwd")).sendKeys("Akshay85@gmail.co");
         driver.findElement(By.id("login")).click();
-    }
+    Thread.sleep(3000);
+    }*/
 
+
+
+/*1.Parameterizing the UserName and Password.*/
+
+/*    @When("^User enters \"(.*)\" and \"(.*)\"$")
+    public void user_enters_UserName_and_Password(String username, String password) throws Throwable {
+        driver.findElement(By.id("log")).sendKeys(username);
+        driver.findElement(By.id("pwd")).sendKeys(password);
+        driver.findElement(By.id("login")).click();
+    }*/
+/*
+/* **** Data table in cucuber0--------------*//*
+    @When("^User enters Credentials to LogIn$")
+    public void user_enters_testuser__and_Test(DataTable usercredentials) throws Throwable {
+        List<List<String>> data = usercredentials.raw();
+        driver.findElement(By.id("log")).sendKeys(data.get(0).get(0));
+        driver.findElement(By.id("pwd")).sendKeys(data.get(0).get(1));
+        driver.findElement(By.id("login")).click();
+    }*/
+
+/*
+    Maps in Data Tables*/
+
+    @When("^User enters Credentials to LogIn$")
+    public void user_enters_testuser_and_Test(List<Credentials>  usercredentials) throws Throwable {
+
+        //Write the code to handle Data Table
+        for (Credentials credentials : usercredentials) {
+            driver.findElement(By.id("log")).sendKeys(credentials.getUsername());
+            driver.findElement(By.id("pwd")).sendKeys(credentials.getPassword());
+            driver.findElement(By.id("login")).click();
+        }
+    }
     @Then("^Message displayed Login Successfully$")
     public void message_displayed_Login_Successfully() throws Throwable {
         System.out.println("Login Successfully");
@@ -43,6 +80,8 @@ WebDriver driver;
 
     @When("^User LogOut from the Application$")
     public void user_LogOut_from_the_Application() throws Throwable {
+
+        Thread.sleep(3000);
         driver.findElement (By.xpath(".//*[@id='account_logout']/a")).click();
     }
 
